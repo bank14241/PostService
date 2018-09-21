@@ -45,6 +45,12 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    public Post delete(long post_id){
+        Post post = postRepository.getOne(post_id);
+        postRepository.deleteById(post_id);
+        return post;
+    }
+
     public List<Post> getAllPost(){
         return postRepository.findAll();
     }
