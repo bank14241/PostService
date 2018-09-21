@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "e5217386-f1de-43c9-8fea-39f759f0848e",
+		"name": "PostService Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "43fb8078-c450-4c6c-b767-d7fc051e703b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"\", function(){",
+							"    var jsonData = pm.response.json();",
+							"    pm.expected(jsonData.firstname).to.eql(\"Vitsarut\");",
+							"    pm.expected(jsonData.lastname).to.eql(\"Udomphol\");",
+							"    pm.response.to.have.status(200);",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstname\": \"Vitsarut\",\n\t\"lastname\": \"Udomphol\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user 1 create new post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ccdafc6b-8866-407a-91b4-bc07e9a9eca3",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"\", function(){",
+							"    var jsonData = pm.response.json();",
+							"    pm.expected(jsonData.title).to.eql(\"PostTest\");",
+							"    pm.expected(jsonData.description).to.eql(\"desTest\");",
+							"    pm.response.to.have.status(200);",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"PostTest\",\n\t\"description\": \"desTest\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/1/post",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1",
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user 1 create new comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ca0b5afb-56de-4228-ae1b-2ee666f47882",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"\", function(){",
+							"    var jsonData = pm.response.json();",
+							"    pm.expected(jsonData.content).to.eql(\"testComment\");",
+							"    pm.response.to.have.status(200);",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"content\": \"testComment\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/1/comment?id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1",
+						"comment"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get post id 1 with all comments in post 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "790b2f50-4f71-458d-ad66-aab5d070beb6",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"\", function(){",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(1);",
+							"    pm.expect(jsonData.title).to.eql(\"PostTest\");",
+							"    pm.expect(jsonData.description).to.eql(\"desTest\");",
+							"    pm.expect(jsonData.user_id).to.eql(1);",
+							"    pm.expect(jsonData.comments[0].user_id).to.eql(1);",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/post/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"post",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
